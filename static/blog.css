@@ -46,3 +46,12 @@ ul.blog-info-description li {
     padding-bottom: 0.4em;
 
 }
+
+div.comment{
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+}
+div.reply{
+    margin-left: 2em;
+}

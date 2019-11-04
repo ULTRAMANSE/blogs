@@ -76,6 +76,7 @@ def blog_detail(request, blog_pk):
     data = {}
     data['content_type'] = blog_content_type.model
     data['object_id'] = blog_pk
+    data['reply_commnent_id'] = 0
     context['comment_form'] = CommentForm(initial=data)
     response = render(request, 'blog_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')  # 阅读cookie标记
