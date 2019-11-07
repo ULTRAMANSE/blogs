@@ -4,8 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read
-from comment.models import Comment
-from comment.forms import CommentForm
+
 
 each_page_number = 5
 
@@ -65,19 +64,13 @@ def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     # cookie验证
     read_cookie_key = read_statistics_once_read(request, blog)
-    blog_content_type = ContentType.objects.get_for_model(blog)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk, parent=None)  # 获取博客的所有评论内容
     
     context = {}
+    pass
     context['blog'] = blog
-    context['comments'] = comments.order_by('-comment_time')
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 大于日期的博客
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 小于日期的博客
-    data = {}
-    data['content_type'] = blog_content_type.model
-    data['object_id'] = blog_pk
-    data['reply_comment_id'] = 0
-    context['comment_form'] = CommentForm(initial=data)
+    
     response = render(request, 'blog_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')  # 阅读cookie标记
     return response
