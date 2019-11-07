@@ -70,13 +70,13 @@ def blog_detail(request, blog_pk):
     
     context = {}
     context['blog'] = blog
-    context['comments'] = comments
+    context['comments'] = comments.order_by('-comment_time')
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 大于日期的博客
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 小于日期的博客
     data = {}
     data['content_type'] = blog_content_type.model
     data['object_id'] = blog_pk
-    data['reply_commnent_id'] = 0
+    data['reply_comment_id'] = 0
     context['comment_form'] = CommentForm(initial=data)
     response = render(request, 'blog_detail.html', context)
     response.set_cookie(read_cookie_key, 'true')  # 阅读cookie标记
