@@ -75,14 +75,26 @@ WSGI_APPLICATION = 'blogs.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
+# mysql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'myblog',
+        'USER': 'blog',
+        'PASSWORD': '111111',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+# sqlite
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
