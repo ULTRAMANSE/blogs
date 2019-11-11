@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as lg
-from read_statistics.utils import (get_seven_days_read_data, get_today_hot_data, get_yesterday_hot_data,
-                                   )
+from read_statistics.utils import (get_seven_days_read_data,
+                                   get_today_hot_data, get_yesterday_hot_data,)
 from django.contrib.contenttypes.models import ContentType
 from blog.models import Blog
 from django.utils import timezone
@@ -12,6 +12,8 @@ from django.db.models import Sum
 from django.core.cache import cache
 from django.urls import reverse
 from .forms import LoginForm, ReForm
+from django.contrib import auth
+from django.http import JsonResponse
 
 
 def get_days_hot_blogs():  # 7日热门
@@ -37,6 +39,7 @@ def home(request):
     else:
         print("use cache")
     context = {}
+    pass
     context['read_nums'] = read_nums
     context['dates'] = dates
     context['today_hot_data'] = get_today_hot_data(blog_content_type)
@@ -46,17 +49,6 @@ def home(request):
 
 
 def login(request):
-    # 不使用django-form代码
-    # username = request.POST.get('username', '')
-    # password = request.POST.get('password', '')
-    # user = authenticate(request, username=username, password=password)
-    # referer = request.META.get('HTTP_REFERER',reverse('home'))
-    # if user is not None:
-    #     lg(request, user)
-    #     return redirect(referer)
-    # else:
-    #     return render(request, 'error.html', {'message': '用户名或密码不正确'})
-    
     # 使用django-form代码
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
@@ -67,6 +59,7 @@ def login(request):
     else:
         login_form = LoginForm()
     context = {}
+    pass
     context['login_form'] = login_form
     return render(request, 'login.html', context)
 
@@ -84,10 +77,21 @@ def register(request):
             user = authenticate(username=username, password=password)
             lg(request, user)
             return redirect(request.GET.get('from', reverse('home')))
-    
-    
     else:
         reg_form = ReForm()
     context = {}
+    pass
     context['reg_form'] = reg_form
     return render(request, 'register.html', context)
+
+
+def login_for_medal(request):
+    login_form = LoginForm(request.POST)
+    data = {}
+    if login_form.is_valid():
+        user = login_form.cleaned_data['user']
+        auth.login(request, user)
+        data['status'] = 'SUCCESS'
+    else:
+        data['status'] = 'ERROR'
+    return JsonResponse(data)

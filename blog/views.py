@@ -2,11 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from .models import Blog, BlogType
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read
 import markdown
+from blogs.forms import LoginForm
 
-each_page_number = 5
+each_page_number = 5  # 每页显示博客数量
 
 
 # 共用
@@ -65,9 +65,9 @@ def blog_detail(request, blog_pk):
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
-    ])
-    
+    ]) # 渲染markdown
     context['blog'] = blog
+    context['login_form'] = LoginForm()
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 大于日期的博客
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 小于日期的博客
     
