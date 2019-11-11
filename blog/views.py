@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from read_statistics.utils import read_statistics_once_read
 import markdown
-from blogs.forms import LoginForm
+from user.forms import LoginForm
 
 each_page_number = 5  # 每页显示博客数量
 

@@ -36,3 +36,6 @@ ul {
     width: 100%;
 }
 
+ul.navbar-right{
+    margin-right: 0;
+}
