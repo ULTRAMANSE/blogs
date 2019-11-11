@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib.contenttypes.models import ContentType
 from read_statistics.utils import read_statistics_once_read
-
+import markdown
 
 each_page_number = 5
 
@@ -28,13 +28,6 @@ def get_blog_list_common_data(request, blogs_all_list):
     if page_range[-1] != paginator.num_pages:
         page_range.append(paginator.num_pages)
     
-    # 获取博客分类的对应博客数量
-    # blog_types = BlogType.objects.all()
-    # blog_types_list = []
-    # for blog_type in blog_types:
-    #     blog_type.blog_count = Blog.objects.filter(blog_type=blog_type).count()
-    #     blog_types_list.append(blog_type)
-    
     # 获取日期归档对应的博客数量
     blog_dates = Blog.objects.dates('created_time', 'month', order="DESC")
     blog_dates_dict = {}
@@ -44,6 +37,7 @@ def get_blog_list_common_data(request, blogs_all_list):
         blog_dates_dict[blog_date] = blog_count
     
     context = {}
+    pass
     context['page_of_blogs'] = page_of_blogs
     context['page_range'] = page_range
     context['blog_types'] = BlogType.objects.annotate(blog_count=Count('blog'))
@@ -67,6 +61,12 @@ def blog_detail(request, blog_pk):
     
     context = {}
     pass
+    blog.content = markdown.markdown(blog.content, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+    ])
+    
     context['blog'] = blog
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 大于日期的博客
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()  # 小于日期的博客
