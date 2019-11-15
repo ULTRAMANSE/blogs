@@ -66,3 +66,9 @@ class ReForm(forms.Form):
         if password != password_again:
             raise forms.ValidationError('两次输入的密码不一致')
         return password_again
+
+
+class ChangeNicknameForm(forms.Form):
+    nickname = '新的昵称'
+    max_length = 20
+    widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入新的昵称'})
