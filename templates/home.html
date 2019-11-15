@@ -16,45 +16,61 @@
     {# 图表容器#}
     <div id="container"></div>
     {#    今天24小时内的热门博客#}
-    <div class="hot-data">
-        <h3>今日热门博客</h3>
-        <ul>
-            {% for hot_data in today_hot_data %}
-                <li>
-                    <a href="{% url 'blog_detail'  hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>
-                    ({{ hot_data.read_num }})
-                </li>
-            {% empty %}
-                <li>今天暂时还没有热门博客</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="hot-data">
-        <h3>昨天热门博客</h3>
-        <ul>
-            {% for hot_data in yesterday_hot_data %}
-                <li>
-                    <a href="{% url 'blog_detail'  hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>
-                    ({{ hot_data.read_num }})
-                </li>
-            {% empty %}
-                <li>昨天没有热门博客</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="hot-data">
-        <h3>7日热门博客</h3>
-        <ul>
-            {% for hot_blog in hot_blogs_for_days %}
-                <li><a href="{% url 'blog_detail'  hot_blog.id %}">{{ hot_blog.title }}</a>
-                    ({{ hot_blog.read_num_sum }})
-                </li>
-            {% empty %}
-                <li>7日内没有热门博客</li>
-            {% endfor %}
-        </ul>
-    </div>
+    <div class="format">
+        <div class="col-xs-6 col-sm-4">
+            <div class="hot-data panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">昨天热门博客</h3>
+                </div>
+                <ul class="list-group">
+                    {% for hot_data in yesterday_hot_data %}
+                        <li class="list-group-item">
+                            <a href="{% url 'blog_detail'  hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>
+                            ({{ hot_data.read_num }})
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">昨天没有热门博客</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
 
+        <div class="col-xs-6 col-sm-4">
+            <div class="hot-data panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">今日热门博客</h3>
+                </div>
+                <ul class="list-group">
+                    {% for hot_data in today_hot_data %}
+                        <li class="list-group-item">
+                            <a href="{% url 'blog_detail'  hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>
+                            ({{ hot_data.read_num }})
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">今天暂时还没有热门博客</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4">
+            <div class="hot-data panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">7日热门博客</h3>
+                </div>
+                <ul class="list-group">
+                    {% for hot_blog in hot_blogs_for_days %}
+                        <li class="list-group-item">
+                            <a href="{% url 'blog_detail'  hot_blog.id %}">{{ hot_blog.title }}</a>
+                            ({{ hot_blog.read_num_sum }})
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">7日内没有热门博客</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <script>
         // 图表配置
