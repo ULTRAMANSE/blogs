@@ -61,7 +61,7 @@
 
                         <form id='comment_form' action="{% url 'update_comment' %}" method="POST"
                               style="overflow: hidden">
-                            <label for="comment_text"> {{ user.username }},欢迎评论~</label>
+                            <label for="comment_text"> {{ user.get_nickname_or_username }},欢迎评论~</label>
                             <div id="reply_content_container">
                                 <p id="reply_title">回复:</p>
                                 <div id="reply_content"></div>
@@ -89,7 +89,7 @@
                         {% get_comment_list blog as comments %}
                         {% for comment in comments %}
                             <div id="root_{{ comment.pk }}" class="comment">
-                                <span>{{ comment.user.username }}</span>
+                                <span>{{ comment.user.get_nickname_or_username }}</span>
                                 <span>({{ comment.comment_time |date:"Y-m-d H:i:s" }}):</span>
                                 <div id="comment_{{ comment.pk }}">
                                     {{ comment.text |safe }}
@@ -103,10 +103,10 @@
 
                                 {% for reply in comment.root_comment.all %}
                                     <div class="reply">
-                                        <span>{{ reply.user.username }}</span>
+                                        <span>{{ reply.user.get_nickname_or_username }}</span>
                                         <span>({{ reply.comment_time |date:"Y-m-d H:i:s" }}):</span>
                                         回复
-                                        <span>{{ reply.reply_to.username }}</span>
+                                        <span>{{ reply.reply_to.get_nickname_or_username }}</span>
                                         <div id="comment_{{ reply.pk }}">
                                             {{ reply.text |safe }}
                                         </div>

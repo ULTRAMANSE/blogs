@@ -65,7 +65,8 @@ def blog_detail(request, blog_pk):
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
-    ]) # 渲染markdown
+        'markdown.extensions.fenced_code',
+    ])  # 渲染markdown
     context['blog'] = blog
     context['login_form'] = LoginForm()
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()  # 大于日期的博客
